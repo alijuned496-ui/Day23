@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#210d20">
+<title>One More Night — A Little World Before Your Day</title>
+<style>
+:root{
+  --wine:#2a1025;--plum:#32152f;--deep:#160d20;--gold:#e8c477;
+  --rose:#f2a9bd;--peach:#f5c9b5;--cream:#fff2dc;--muted:#e8d5d8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--deep);color:var(--cream);font-family:Georgia,"Times New Roman",serif}
+body{overflow:hidden}
+button{font:inherit;cursor:pointer}
+#app{min-height:100svh;position:relative;overflow:hidden;background:
+ radial-gradient(ellipse at 50% 10%,#63304e 0%,transparent 42%),
+ linear-gradient(145deg,#170e20,#321326 55%,#180d20)}
+.screen{position:absolute;inset:0;min-height:100svh;padding:clamp(22px,5vw,48px) 20px calc(28px + env(safe-area-inset-bottom));display:none;overflow-y:auto;align-items:center;justify-content:center;text-align:center;opacity:0;transform:translateY(12px);transition:opacity .65s ease,transform .65s ease}
+.screen.active{display:flex;opacity:1;transform:translateY(0)}
+.inner{width:min(100%,760px);margin:auto;position:relative;z-index:2}
+.eyebrow{font:600 .72rem/1.5 Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+h1,h2{font-weight:400;line-height:1.08;margin:.45em 0;color:#fff0dc}
+h1{font-size:clamp(2.5rem,10vw,5.7rem)}
+h2{font-size:clamp(2rem,7vw,3.7rem)}
+p{font-size:clamp(1rem,3.8vw,1.22rem);line-height:1.75;color:var(--muted)}
+.small{font-size:.92rem}
+.script{font-style:italic;color:#ffd5dc}
+.btn{border:1px solid rgba(232,196,119,.75);border-radius:999px;padding:14px 23px;margin:10px 5px;background:linear-gradient(135deg,rgba(232,196,119,.18),rgba(242,169,189,.12));color:#fff2dc;letter-spacing:.08em;font:600 .78rem Arial,sans-serif;box-shadow:0 0 24px rgba(232,196,119,.12);transition:transform .2s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn:hover{box-shadow:0 0 28px rgba(232,196,119,.28)}
+.gold{color:var(--gold)}
+.glow{ text-shadow:0 0 18px rgba(255,209,143,.55),0 0 38px rgba(242,169,189,.25)}
+.arch{width:min(76vw,330px);height:min(76vw,330px);max-height:330px;margin:24px auto 30px;border:2px solid rgba(232,196,119,.8);border-bottom:0;border-radius:180px 180px 0 0;position:relative;box-shadow:0 0 30px #d69c6240,inset 0 0 35px #d69c6225}
+.arch:before{content:"";position:absolute;inset:14px 14px 0;border:1px solid #f2a9bd88;border-bottom:0;border-radius:180px 180px 0 0}
+.arch:after{content:"✦";position:absolute;top:18%;left:50%;transform:translateX(-50%);font-size:2rem;color:var(--gold);text-shadow:0 0 20px var(--gold)}
+.lantern{position:absolute;color:var(--gold);font-size:1.5rem;animation:swing 3s ease-in-out infinite;transform-origin:top center}
+.lantern.l{left:12%;top:0}.lantern.r{right:12%;top:0;animation-delay:-1.4s}
+@keyframes swing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.particles,.seeds{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffe7a9;box-shadow:0 0 9px 2px #f5cb75;animation:drift linear infinite;opacity:.7}
+@keyframes drift{from{transform:translate3d(0,110vh,0);opacity:0}15%{opacity:.8}85%{opacity:.7}to{transform:translate3d(35px,-15vh,0);opacity:0}}
+.ballroom{background:radial-gradient(ellipse at 50% 20%,#79405a 0%,#37172f 48%,#160d20 100%)}
+.chandelier-row{display:flex;justify-content:center;gap:clamp(10px,5vw,38px);margin:22px auto 30px}
+.chandelier{font-size:clamp(2.2rem,9vw,4.4rem);filter:drop-shadow(0 0 12px #f6d58b);animation:chand 3s ease-in-out infinite;cursor:pointer;user-select:none}
+.chandelier:nth-child(even){animation-delay:-1.2s}
+.chandelier.lit{filter:drop-shadow(0 0 24px #ffe9a5) brightness(1.5)}
+@keyframes chand{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(7px) rotate(2deg)}}
+.starline{letter-spacing:.7em;color:var(--gold);margin:10px}
+.garden{background:linear-gradient(180deg,#271b39 0%,#75435d 52%,#d18b69 100%)}
+.garden:before{content:"";position:absolute;inset:auto -10% -10% -10%;height:42%;background:radial-gradient(ellipse,#f5c58b66,transparent 65%);pointer-events:none}
+.dandelion-art{font-size:clamp(4rem,16vw,8rem);line-height:1.2;filter:drop-shadow(0 0 22px #ffe4a1);margin:12px}
+.dedication{max-width:680px;margin:18px auto;padding:22px 18px;border:1px solid #ffe2bd66;border-radius:22px;background:#24162b55;backdrop-filter:blur(5px);text-align:left}
+.dedication p{font-size:clamp(1rem,3.6vw,1.18rem);margin:.6em 0;color:#fff0e6}
+.dedication .last{font-size:clamp(1.12rem,4vw,1.4rem);color:#ffe0a6;text-shadow:0 0 16px #ffcb77}
+.song{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.envelope-scene{background:radial-gradient(ellipse at 50% 40%,#70405a,#29132d 68%,#160d20)}
+.envelope{width:min(78vw,360px);height:230px;margin:30px auto 20px;position:relative;cursor:pointer;perspective:900px;filter:drop-shadow(0 18px 25px #09050c88)}
+.env-body{position:absolute;inset:30px 0 0;background:linear-gradient(145deg,#f4c8ae,#d99b91);border:2px solid #f6d59b;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);border-radius:8px}
+.env-flap{position:absolute;top:30px;left:0;width:100%;height:58%;background:linear-gradient(145deg,#f8d8bd,#dba49b);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .8s;z-index:3;border-top:2px solid #ffe1a9}
+.env-fold{position:absolute;top:30px;left:0;width:100%;height:200px;background:linear-gradient(35deg,#e9b4a5,#f5d2b7);clip-path:polygon(0 100%,50% 38%,100% 100%);z-index:2}
+.seal{position:absolute;z-index:4;top:105px;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#a94c59,#5d172f);border:2px solid #edc27a;color:#ffd9d7;font-size:1.6rem;box-shadow:0 0 20px #efbd8355;transition:opacity .4s,transform .4s}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.envelope.open .seal{opacity:0;transform:translateX(-50%) scale(.3)}
+.letter{display:none;background:#fff0d8;color:#5b3441;border-radius:8px;padding:24px 20px;margin:18px auto;max-width:650px;text-align:left;box-shadow:0 15px 35px #08040b88;border:1px solid #d6b17b}
+.letter.show{display:block;animation:letterin .8s ease both}
+@keyframes letterin{from{opacity:0;transform:translateY(25px) scale(.98)}to{opacity:1;transform:none}}
+.letter p{color:#65404b;font-size:clamp(1rem,3.6vw,1.13rem);line-height:1.85;white-space:pre-line}
+.letter .letter-sign{color:#9c5362}
+.clock-screen{background:radial-gradient(ellipse at 50% 45%,#56304c,#1b1026 70%)}
+.clock{width:min(65vw,270px);aspect-ratio:1;border:7px double #d9b46d;border-radius:50%;margin:25px auto;position:relative;background:radial-gradient(circle,#48283e,#24142c);box-shadow:0 0 35px #d9b46d33,inset 0 0 25px #d9b46d22}
+.clock:before{content:"";position:absolute;inset:13px;border:1px solid #d9b46d88;border-radius:50%}
+.numeral{position:absolute;inset:12px;color:#f1d89b;font-size:1.05rem}
+.numeral span{position:absolute;transform:translate(-50%,-50%)}
+.numeral span:nth-child(1){left:50%;top:3%}.numeral span:nth-child(2){left:97%;top:50%}.numeral span:nth-child(3){left:50%;top:97%}.numeral span:nth-child(4){left:3%;top:50%}
+.hand{position:absolute;left:50%;bottom:50%;transform-origin:bottom;border-radius:8px;z-index:2}
+.hour{height:27%;width:5px;background:#e7c16e;transform:translateX(-50%) rotate(30deg)}
+.minute{height:37%;width:3px;background:#f4a9bd;transform:translateX(-50%) rotate(90deg)}
+.second{height:40%;width:2px;background:#fff0dc;transform:translateX(-50%) rotate(180deg)}
+.pivot{position:absolute;left:50%;top:50%;width:13px;height:13px;border-radius:50%;background:#ffe3a1;transform:translate(-50%,-50%);z-index:3}
+.countdown{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:20px auto}
+.timebox{min-width:68px;padding:12px 9px;border:1px solid #d9b46d77;border-radius:14px;background:#170e25aa}
+.timebox strong{display:block;font:600 clamp(1.4rem,6vw,2.2rem) Arial;color:#ffe3a1}
+.timebox span{font: .62rem Arial;letter-spacing:.14em;color:#eacbd1}
+.birthday{background:radial-gradient(ellipse at 50% 35%,#873c5b,#3a142e 60%,#160d20)}
+.cake{font-size:clamp(4rem,17vw,8rem);filter:drop-shadow(0 0 24px #ffd67d);margin:12px}
+.firework{position:absolute;font-size:1.4rem;animation:pop 2.4s ease-in-out infinite;opacity:.75}
+@keyframes pop{0%,100%{transform:scale(.5);opacity:.15}50%{transform:scale(1.4);opacity:1}}
+.gift-screen{background:radial-gradient(ellipse at 50% 40%,#55243e,#1b0d20 72%)}
+.gift{font-size:clamp(6rem,24vw,10rem);display:block;cursor:pointer;filter:drop-shadow(0 0 28px #f0c37b);animation:giftshake 3s ease-in-out infinite}
+@keyframes giftshake{0%,90%,100%{transform:rotate(0)}92%{transform:rotate(-5deg)}95%{transform:rotate(5deg)}97%{transform:rotate(-3deg}}
+.gift-message{display:none}.gift-message.show{display:block;animation:letterin .8s ease both}
+.footer-note{font: .68rem Arial,sans-serif;letter-spacing:.12em;color:#e9c9d0aa;margin-top:24px}
+@media(max-height:700px){.screen{align-items:flex-start}.inner{margin:auto}.arch{width:210px;height:210px;margin:10px auto 18px}.chandelier-row{margin:8px auto 16px}.envelope{height:190px;margin:12px auto}.seal{top:88px}.dedication{padding:14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="particles" id="particles"></div>
+  <section class="screen active" id="entrance">
+    <div class="inner">
+      <div class="eyebrow">23 NOVEMBER · ONE MORE NIGHT</div>
+      <div class="arch"><span class="lantern l">🏮</span><span class="lantern r">🏮</span></div>
+      <h1 class="glow">Let me innn... 🌙</h1>
+      <p>A little world, a little surprise, and one last night before your special day.</p>
+      <button class="btn" data-next="ballroom">LET ME INNN 🌷</button>
+      <div class="footer-note">A LITTLE WORLD BEFORE YOUR DAY</div>
+    </div>
+  </section>
+
+  <section class="screen ballroom" id="ballroom">
+    <div class="inner">
+      <div class="eyebrow">CHAPTER II · THE MIDNIGHT BALLROOM</div>
+      <h2>Welcome to your little ballroom ✨</h2>
+      <div class="chandelier-row" aria-label="Tap the chandeliers">
+        <span class="chandelier" role="button" tabindex="0" aria-label="Chandelier">♕</span>
+        <span class="chandelier" role="button" tabindex="0" aria-label="Chandelier">♕</span>
+        <span class="chandelier" role="button" tabindex="0" aria-label="Chandelier">♕</span>
+        <span class="chandelier" role="button" tabindex="0" aria-label="Chandelier">♕</span>
+        <span class="chandelier" role="button" tabindex="0" aria-label="Chandelier">♕</span>
+      </div>
+      <p>"Tonight, the lights are on for you, Anshikaaa...the world hasnt slept yettt....guess whatttt ...ur hbd it around the corner 🌷💗"</p>
+      <div class="starline">✦ ✧ ✦</div>
+      <p class="small">Tap the chandeliers and little stars to make the room glow.</p>
+      <button class="btn" data-next="garden">ENTER THE GARDEN 🌼</button>
+    </div>
+  </section>
+
+  <section class="screen garden" id="garden">
+    <div class="seeds" id="seeds"></div>
+    <div class="inner">
+      <div class="eyebrow">CHAPTER III · A SONG DEDICATED TO YOU</div>
+      <div class="dandelion-art">🌼</div>
+      <h2 class="glow">Dandelions</h2>
+      <div class="script">A song for youuu...</div>
+      <div class="dedication">
+        <p>Anshikaaaaa this song dandelions 😭 I wanna dedicate to u ..I mean wese toh i don't listennnnn much but when I listened to this 😭😭😭😭😭</p>
+        <p>It made me remind of u ( too shy to sing it btw I'm sorry 😭💔)</p>
+        <p>I have heard of a love that comes once in a lifetime..... 💫💗</p>
+        <p class="last">Nd I'm pretty sure u r that love of mineeee ....143% true ....u r the love i could never ever experience againnn ...loveeee youuu yarrrr loveeeeee youuuuu sooo muchhhhhhh 🌼💗😭✨</p>
+      </div>
+      <p class="small">A song I dedicate to you</p>
+      <p class="small gold">Dandelions 🌼<br>Ruth B. · Official audio / YouTube</p>
+      <a class="btn song" href="https://www.youtube.com/results?search_query=Ruth+B+Dandelions+official+audio" target="_blank" rel="noopener">▶ PLAY DANDELIONS 🎧</a>
+      <div><button class="btn" data-next="envelope">A LETTER FOR YOU 💌</button></div>
+    </div>
+  </section>
+
+  <section class="screen envelope-scene" id="envelope">
+    <div class="inner">
+      <div class="eyebrow">CHAPTER IV · THE PERSONAL ENVELOPE</div>
+      <h2>Something from me, to you 💌</h2>
+      <p>There's something I wanted you to read before your day begins.</p>
+      <div class="envelope" id="envelopeObject" role="button" tabindex="0" aria-label="Open the sealed envelope">
+        <div class="env-body"></div><div class="env-fold"></div><div class="env-flap"></div><div class="seal">♥</div>
+      </div>
+      <p class="small" id="envelopeHint">Tap the heart seal to open your letter.</p>
+      <article class="letter" id="letter">
+        <p id="letterText"></p>
+        <p class="letter-sign">🌷💗🎀✨🦋🌼💐💝🌙🎉💗</p>
+      </article>
+      <button class="btn" id="letterContinue" hidden data-next="clock">ONE MORE THING... 🌙</button>
+    </div>
+  </section>
+
+  <section class="screen clock-screen" id="clock">
+    <div class="inner">
+      <div class="eyebrow">CHAPTER V · THE MIDNIGHT CLOCK TOWER</div>
+      <h2>One more night... ⏳</h2>
+      <p>The clock is waiting for your day to begin. The birthday reveal will unlock at midnight, 24 November. 💫</p>
+      <div class="clock" aria-label="Decorative antique clock">
+        <div class="numeral"><span>XII</span><span>III</span><span>VI</span><span>IX</span></div>
+        <div class="hand hour" id="hourHand"></div><div class="hand minute" id="minuteHand"></div><div class="hand second" id="secondHand"></div><div class="pivot"></div>
+      </div>
+      <div class="countdown" aria-live="polite">
+        <div class="timebox"><strong id="days">00</strong><span>DAYS</span></div>
+        <div class="timebox"><strong id="hours">00</strong><span>HOURS</span></div>
+        <div class="timebox"><strong id="minutes">00</strong><span>MINUTES</span></div>
+        <div class="timebox"><strong id="seconds">00</strong><span>SECONDS</span></div>
+      </div>
+      <p class="small gold">24 NOVEMBER 2026 · 12:00 AM IST</p>
+      <p class="small" id="clockStatus">The final little wait...</p>
+    </div>
+  </section>
+
+  <section class="screen birthday" id="birthday">
+    <div class="firework" style="top:13%;left:12%">✦</div><div class="firework" style="top:24%;right:13%;animation-delay:-.8s">✧</div>
+    <div class="firework" style="bottom:19%;left:18%;animation-delay:-1.3s">✦</div><div class="firework" style="bottom:25%;right:17%;animation-delay:-.4s">✧</div>
+    <div class="inner">
+      <div class="eyebrow">THE WAIT IS OVER...</div>
+      <div class="cake">🎂</div>
+      <h1 class="glow">HAPPIEST BIRTHDAYYYYY!!</h1>
+      <h2 class="gold">ANSHIKAAAAA!! 🎀</h2>
+      <p>Have the most beautiful dayyyyy!! 🌷🦋💐✨</p>
+      <p>May this new year of your life bring you happiness, courage, lovely surprises, and so many reasons to smile. 💛🌼</p>
+      <div class="starline">✦ 💗 ✧ 🌷 ✦</div>
+      <button class="btn" data-next="gift">ONE LAST THING 🎁</button>
+    </div>
+  </section>
+
+  <section class="screen gift-screen" id="gift">
+    <div class="inner">
+      <div class="eyebrow">THE FINAL LITTLE SURPRISE</div>
+      <span class="gift" id="giftObject" role="button" tabindex="0" aria-label="Open the gift">🎁</span>
+      <div class="gift-message" id="giftMessage">
+        <h2 class="glow">NOW GO CHECK YOUR APPPPP!! 👀🎁</h2>
+        <p>🎀 💗 🌷 ✨ 🦋</p>
+      </div>
+      <p class="small" id="giftHint">Tap the gift to open it.</p>
+      <div class="footer-note">END OF DAY 23 · ONE MORE NIGHT</div>
+    </div>
+  </section>
+</div>
+<script>
+(() => {
+  const TARGET = Date.UTC(2026, 10, 23, 18, 30, 0); // 24 Nov 2026, 00:00 IST
+  const screens = [...document.querySelectorAll('.screen')];
+  let current = 'entrance';
+  let timer = null;
+  const $ = id => document.getElementById(id);
+
+  function show(id) {
+    screens.forEach(s => s.classList.toggle('active', s.id === id));
+    current = id;
+    window.scrollTo(0, 0);
+    if (id === 'clock') startCountdown();
+  }
+  document.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', () => show(btn.dataset.next)));
+
+  function burst(x, y) {
+    const layer = $('particles');
+    for (let i=0;i<12;i++) {
+      const p=document.createElement('i');
+      p.textContent = i%3===0 ? '✦' : '·';
+      p.style.cssText=`position:absolute;left:${x}px;top:${y}px;color:#ffe2a1;font-size:${10+Math.random()*15}px;pointer-events:none;z-index:8;transition:transform .8s ease,opacity .8s ease`;
+      layer.appendChild(p);
+      requestAnimationFrame(()=>{p.style.transform=`translate(${(Math.random()-.5)*150}px,${(Math.random()-.5)*150}px) scale(.2)`;p.style.opacity='0'});
+      setTimeout(()=>p.remove(),900);
+    }
+  }
+  document.querySelectorAll('.chandelier').forEach(el => {
+    const light=()=>{el.classList.toggle('lit');const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2)};
+    el.addEventListener('click',light);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();light()}});
+  });
+  document.querySelector('.starline')?.addEventListener('click',e=>burst(e.clientX,e.clientY));
+
+  // Ambient golden dust and drifting dandelion seeds; generated locally, no external assets.
+  for(let i=0;i<38;i++){
+    const p=document.createElement('i');p.className='particle';
+    p.style.left=Math.random()*100+'%';p.style.animationDuration=(9+Math.random()*15)+'s';
+    p.style.animationDelay=(-Math.random()*20)+'s';p.style.opacity=(.25+Math.random()*.65);
+    $('particles').appendChild(p);
+  }
+  for(let i=0;i<25;i++){
+    const s=document.createElement('i');s.textContent='✧';s.style.cssText=`position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;color:#fff0bc;font-style:normal;opacity:${.2+Math.random()*.6};font-size:${9+Math.random()*13}px;animation:drift ${12+Math.random()*12}s linear infinite;animation-delay:${-Math.random()*20}s`;
+    $('seeds').appendChild(s);
+  }
+
+  const letterCopy = `Anshikaaaaa we have reached the last day before ur hbd
+I hope tomorrow makes u feel special...not bcz of present surprises but bcz u deserve itt chuimuiii
+Why just ur birthday ....enjoy this day yesterday todayyyy tomorrowrrr omorow everydayyyyyy
+U got so much ahead of u anshika.....nd I'm always here in ur bad as well as good times ...(mein hu toh kya hi bad hoga anyways 😔)
+
+Yeahhhh Happy birthday misss anshiiiiiikaaaa`;
+  let letterOpened=false;
+  function openLetter(){
+    if(letterOpened)return;letterOpened=true;
+    $('envelopeObject').classList.add('open');$('envelopeHint').textContent='Your letter is opening...';
+    setTimeout(()=>{
+      $('letter').classList.add('show');
+      $('letterText').textContent=letterCopy;
+      $('letterContinue').hidden=false;
+      $('envelopeHint').textContent='A little note, just for you.';
+    },650);
+  }
+  $('envelopeObject').addEventListener('click',openLetter);
+  $('envelopeObject').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLetter()}});
+
+  function birthdayNow(){show('birthday');}
+  function startCountdown(){
+    if(timer)clearInterval(timer);
+    const tick=()=>{
+      const now=Date.now(), remaining=TARGET-now;
+      if(remaining<=0){
+        ['days','hours','minutes','seconds'].forEach(id=>$(id).textContent='00');
+        $('clockStatus').textContent='Your day has arrived. 💗';
+        clearInterval(timer);timer=null;
+        setTimeout(()=>{if(current==='clock')birthdayNow()},900);
+        return;
+      }
+      const d=Math.floor(remaining/86400000),h=Math.floor(remaining%86400000/3600000),
+            m=Math.floor(remaining%3600000/60000),s=Math.floor(remaining%60000/1000);
+      $('days').textContent=String(d).padStart(2,'0');
+      $('hours').textContent=String(h).padStart(2,'0');
+      $('minutes').textContent=String(m).padStart(2,'0');
+      $('seconds').textContent=String(s).padStart(2,'0');
+      const date=new Date();
+      $('hourHand').style.transform=`translateX(-50%) rotate(${(date.getHours()%12)*30+date.getMinutes()*.5}deg)`;
+      $('minuteHand').style.transform=`translateX(-50%) rotate(${date.getMinutes()*6+date.getSeconds()*.1}deg)`;
+      $('secondHand').style.transform=`translateX(-50%) rotate(${date.getSeconds()*6}deg)`;
+    };
+    tick();timer=setInterval(tick,1000);
+  }
+
+  function openGift(){
+    $('giftObject').textContent='💝';
+    $('giftObject').style.animation='none';
+    $('giftMessage').classList.add('show');
+    $('giftHint').textContent='A final reminder for youuuu.';
+    const r=$('giftObject').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
+  }
+  $('giftObject').addEventListener('click',openGift);
+  $('giftObject').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openGift()}});
+
+  // If the site is first opened after the birthday starts, skip straight to the birthday reveal.
+  if(Date.now()>=TARGET) show('birthday');
+})();
+</script>
+</body>
+</html>
